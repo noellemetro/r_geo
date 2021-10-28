@@ -1,5 +1,5 @@
 ##
-## OSM Sourced "Abandoned" Sites:
+## OSM Sourced "Railway" Sites:
 ## Noelle C. 
 
 
@@ -31,7 +31,7 @@ available_features()
 
 ##
 ## Pick the features in Chicago that are abandoned:
-q <- getbb("Chicago") %>% 
+q <- getbb("Terre Haute") %>% 
              opq() %>% 
              add_osm_feature("railway")
 
@@ -41,11 +41,11 @@ railway <- osmdata_sf(q)
 
 ##
 ## Extract the points with sf::st_sf:
-points <- st_sf(abandon$osm_points)
+points <- st_sf(railway$osm_points)
 
 ##
 ## Extract the polygons:
-polygons <- st_sf(abandon$osm_polygons)
+polygons <- st_sf(railway$osm_polygons)
 
 ##
 ## Use arcgisbindings to write a shapefile:
@@ -54,11 +54,11 @@ arc.write(path = "./R_bridge/osm_source_abandon.shp", data = points)
 ##
 ## Use get_map() to grab the map of Chicago:
 
-chi_map <- get_map(getbb("Chicago"), maptype = "toner-background")
+terre <- get_map(getbb("Terre Haute"), maptype = "toner-background")
 
 ##
 ## Call the railway points on a map of Chicago:
-ggmap(chi_map)+
+ggmap(terre)+
   geom_sf(data = railway$osm_polygons,
           inherit.aes = FALSE,
           colour = "#238443",
