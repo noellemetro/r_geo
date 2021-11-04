@@ -1,5 +1,5 @@
 ##
-## OSM Sourced "Railway" Sites:
+## OSM Sourced "Railway" Sites in Terre Haute:
 ## Noelle C. 
 
 
@@ -7,19 +7,19 @@
 ## Make sure these packages are installed:
 install.packages("osmdata")
 install.packages("ggmap")
-install.packages("arcgisbinding") ## you may need to search github for this.
 install.packages("sf")
 install.packages("ggplot2")
 install.packages("dplyr")
 
-
+## This one requires the R-ArcGIS Bridge to be installed from within ArcMap/ArcPro.
+install.packages("arcgisbinding") 
+arcgisbinding::arc.check_product()
+library(arcgisbinding)
 
 ##
 ## Call the libraries into the session:
 library(osmdata)
 library(ggmap)
-arcgisbinding::arc.check_product()
-library(arcgisbinding)
 library(sf)
 library(ggplot2)
 library(dplyr)
@@ -28,6 +28,9 @@ library(dplyr)
 ##
 ## Check the available features:
 available_features()
+
+## These are feature tags that you can use to query 
+## OpenSourceMap Data.
 
 ##
 ## Pick the features in Chicago that are abandoned:
@@ -47,9 +50,9 @@ points <- st_sf(railway$osm_points)
 ## Extract the polygons:
 polygons <- st_sf(railway$osm_polygons)
 
-##
-## Use arcgisbindings to write a shapefile:
-arc.write(path = "./R_bridge/osm_source_abandon.shp", data = points)
+## OPTIONAL:
+## Use arcgisbinding to write a shapefile:
+arc.write(path = "./R_bridge/osm_source_railway.shp", data = points)
 
 ##
 ## Use get_map() to grab the map of Chicago:
@@ -57,20 +60,13 @@ arc.write(path = "./R_bridge/osm_source_abandon.shp", data = points)
 terre <- get_map(getbb("Terre Haute"), maptype = "toner-background")
 
 ##
-## Call the railway points on a map of Chicago:
+## Call the railway points/lines on a map of Terre Haute, IN:
 ggmap(terre)+
-  geom_sf(data = railway$osm_polygons,
+  geom_sf(data = railway$osm_lines,
           inherit.aes = FALSE,
           colour = "#238443",
           fill = "#004529",
           alpha = .5,
-          size = 4,
-          shape = 21)+
-  geom_sf(data = railway$osm_points,
-          inherit.aes = FALSE,
-          colour = "red",
-          fill = "red",
-          alpha = .2,
-          size = 1,
-          shape = 19)+
+          size = 0.5,
+          shape = 1)+
   labs(x = "", y = "")
