@@ -34,7 +34,9 @@ south <- ill %>%
 ## Let's combine the two shapefiles we have:
 
 combined <- st_union(mtzion, long)
+combined <- st_transform(combined, crs = 4326)
+
 plot(combined$geometry)
 
 arcgisbinding::arc.check_product()
-arcgisbinding::arc.write(combined, path = "C:/Noelle GIS/External Resources/Illinois/mtzion_longcreek_shape.shp")
+arcgisbinding::arc.write(combined, path = "C:/Noelle GIS/External Resources/Illinois/mtzion_longcreek_shape2.shp")
