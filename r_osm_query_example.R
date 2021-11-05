@@ -10,6 +10,11 @@ install.packages("ggmap")
 install.packages("sf")
 install.packages("ggplot2")
 install.packages("dplyr")
+install.packages("rgeos")
+install.packages("rgdal")
+install.packages("RPostgreSQL")
+install.packages("rpostgis")
+
 
 ## This one requires the R-ArcGIS Bridge to be installed from within ArcMap/ArcPro.
 install.packages("arcgisbinding") 
@@ -21,8 +26,14 @@ library(arcgisbinding)
 library(osmdata)
 library(ggmap)
 library(sf)
+library(sp)
 library(ggplot2)
 library(dplyr)
+library(rgdal)
+library(raster)
+library(rgeos)
+library(RPostgreSQL)
+library(rpostgis)
 
 ####################################################
 ##
@@ -44,11 +55,20 @@ railway <- osmdata_sf(q)
 
 ##
 ## Extract the points with sf::st_sf:
+  
 points <- st_sf(railway$osm_points)
+points <- st_transform(points, crs = 4326)
+
 
 ##
 ## Extract the polygons:
 polygons <- st_sf(railway$osm_polygons)
+polygons <- st_transform(polygons, crs = 4326)
+
+##
+## Extract the lines:
+lines <- st_sf(railway$osm_lines)
+lines <- st_transform(lines, crs = 4326)
 
 ## OPTIONAL:
 ## Use arcgisbinding to write a shapefile:
@@ -70,3 +90,22 @@ ggmap(terre)+
           size = 0.5,
           shape = 1)+
   labs(x = "", y = "")
+
+####################################################
+##
+## We will only deal with sf and sfc type objects in this part.
+
+## Assume here you have your working directory set to where you
+## can load a shapefile:
+
+ind
+
+ind <- st_as_sf(ind)
+##
+## Let's do some Analytics on the object lines:
+
+
+raster::shapefile("")
+
+str(points)
+
