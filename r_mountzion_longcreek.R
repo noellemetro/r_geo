@@ -39,4 +39,4 @@ combined <- st_transform(combined, crs = 4326)
 plot(combined$geometry)
 
 arcgisbinding::arc.check_product()
-arcgisbinding::arc.write(combined, path = "C:/Noelle GIS/External Resources/Illinois/mtzion_longcreek_shape2.shp")
+arcgisbinding::arc.write(combined, path = "./External Resources/Illinois/mtzion_longcreek_shape2.shp")
